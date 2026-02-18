@@ -1,0 +1,2536 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Article Writing Haven</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Merriweather:ital,wght@0,300;0,400;0,700;1,300;1,400&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked@9/marked.min.js"></script>
+    <style>
+        :root {
+            --bg-primary: #0d0d0d;
+            --bg-secondary: #141414;
+            --bg-tertiary: #1a1a1a;
+            --bg-elevated: #242424;
+            --bg-input: #1f1f1f;
+            --text-primary: #f5f5f5;
+            --text-secondary: #a3a3a3;
+            --text-tertiary: #737373;
+            --border-color: #2a2a2a;
+            --accent: #3b82f6;
+            --accent-hover: #2563eb;
+            --accent-soft: rgba(59, 130, 246, 0.15);
+            --success: #22c55e;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --purple: #8b5cf6;
+            --pink: #ec4899;
+            --orange: #f97316;
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.3);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.4), 0 2px 4px -1px rgba(0, 0, 0, 0.2);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.5), 0 4px 6px -2px rgba(0, 0, 0, 0.3);
+            --radius-sm: 6px;
+            --radius-md: 10px;
+            --radius-lg: 16px;
+            --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        [data-theme="light"] {
+            --bg-primary: #ffffff;
+            --bg-secondary: #fafafa;
+            --bg-tertiary: #f5f5f5;
+            --bg-elevated: #ffffff;
+            --bg-input: #f0f0f0;
+            --text-primary: #171717;
+            --text-secondary: #525252;
+            --text-tertiary: #737373;
+            --border-color: #e5e5e5;
+            --accent-soft: rgba(59, 130, 246, 0.1);
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { font-size: 16px; }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            min-height: 100vh;
+            transition: var(--transition);
+            overflow: hidden;
+        }
+
+        .app { display: flex; height: 100vh; overflow: hidden; }
+
+        /* Navigation */
+        .main-nav {
+            width: 60px;
+            background: var(--bg-secondary);
+            border-right: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 16px 0;
+            flex-shrink: 0;
+        }
+
+        .nav-logo {
+            width: 36px;
+            height: 36px;
+            background: linear-gradient(135deg, var(--accent), var(--purple));
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            margin-bottom: 24px;
+        }
+
+        .nav-items {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            flex: 1;
+        }
+
+        .nav-item {
+            width: 44px;
+            height: 44px;
+            border: none;
+            background: transparent;
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            color: var(--text-tertiary);
+            cursor: pointer;
+            position: relative;
+            transition: var(--transition);
+        }
+
+        .nav-item:hover { background: var(--bg-tertiary); color: var(--text-secondary); }
+        .nav-item.active { background: var(--accent-soft); color: var(--accent); }
+
+        .nav-item-badge {
+            position: absolute;
+            top: 4px;
+            right: 4px;
+            min-width: 18px;
+            height: 18px;
+            background: var(--danger);
+            border-radius: 9px;
+            font-size: 10px;
+            font-weight: 600;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0 5px;
+        }
+
+        .nav-label {
+            font-size: 10px;
+            color: var(--text-tertiary);
+            margin-top: 4px;
+        }
+
+        /* Left Sidebar */
+        .sidebar-left {
+            width: 320px;
+            background: var(--bg-secondary);
+            border-right: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            flex-shrink: 0;
+            transition: var(--transition);
+        }
+
+        .sidebar-header {
+            padding: 20px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .sidebar-title {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+
+        .stats-bar {
+            display: flex;
+            gap: 16px;
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+
+        .stat { display: flex; align-items: center; gap: 4px; }
+        .stat-value { font-weight: 600; color: var(--text-primary); }
+
+        .sidebar-toolbar {
+            padding: 12px;
+            display: flex;
+            gap: 8px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .search-box { flex: 1; position: relative; }
+        .search-box input {
+            width: 100%;
+            padding: 8px 10px 8px 32px;
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-sm);
+            color: var(--text-primary);
+            font-size: 13px;
+            transition: var(--transition);
+        }
+        .search-box input:focus { outline: none; border-color: var(--accent); }
+        .search-box input::placeholder { color: var(--text-tertiary); }
+        .search-icon {
+            position: absolute;
+            left: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-tertiary);
+            font-size: 14px;
+        }
+
+        .btn-icon {
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-sm);
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 16px;
+        }
+        .btn-icon:hover { background: var(--bg-elevated); color: var(--text-primary); }
+
+        .article-list {
+            flex: 1;
+            overflow-y: auto;
+            padding: 8px;
+        }
+
+        .article-list::-webkit-scrollbar { width: 6px; }
+        .article-list::-webkit-scrollbar-track { background: transparent; }
+        .article-list::-webkit-scrollbar-thumb { background: var(--border-color); border-radius: 3px; }
+
+        .article-item {
+            padding: 14px 16px;
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            transition: var(--transition);
+            margin-bottom: 4px;
+            border: 1px solid transparent;
+        }
+        .article-item:hover { background: var(--bg-tertiary); }
+        .article-item.active { background: var(--bg-elevated); border-color: var(--accent); }
+
+        .article-item-title {
+            font-size: 14px;
+            font-weight: 600;
+            line-height: 1.4;
+            margin-bottom: 8px;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            color: var(--text-primary);
+        }
+
+        .article-item-meta {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 3px 8px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 500;
+            border: none;
+        }
+        .status-draft { background: rgba(239, 68, 68, 0.15); color: var(--danger); }
+        .status-review { background: rgba(245, 158, 11, 0.15); color: var(--warning); }
+        .status-scheduled { background: rgba(249, 115, 22, 0.15); color: var(--orange); }
+        .status-published { background: rgba(34, 197, 94, 0.15); color: var(--success); }
+
+        .publish-date {
+            font-size: 11px;
+            color: var(--text-tertiary);
+        }
+
+        /* Main Content */
+        .main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            min-width: 0;
+        }
+
+        .main-content {
+            flex: 1;
+            overflow: hidden;
+            display: none;
+        }
+        .main-content.active { display: flex; }
+
+        /* Views */
+        .view-editor { flex: 1; display: flex; }
+        .view-calendar { flex: 1; display: flex; flex-direction: column; padding: 24px; overflow-y: auto; }
+        .view-analytics { flex: 1; display: flex; flex-direction: column; padding: 24px; overflow-y: auto; }
+        .view-pipeline { flex: 1; display: flex; flex-direction: column; padding: 24px; overflow-y: auto; }
+
+        /* Toolbar */
+        .editor-toolbar {
+            height: 56px;
+            padding: 0 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid var(--border-color);
+            background: var(--bg-secondary);
+            flex-shrink: 0;
+        }
+
+        .toolbar-left, .toolbar-right { display: flex; align-items: center; gap: 8px; }
+        .toolbar-center { display: flex; align-items: center; gap: 4px; }
+
+        .toolbar-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 14px;
+            border-radius: var(--radius-sm);
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+            border: 1px solid transparent;
+            background: transparent;
+            color: var(--text-secondary);
+        }
+        .toolbar-btn:hover { color: var(--text-primary); background: var(--bg-tertiary); }
+        .toolbar-btn.active { color: var(--accent); background: var(--accent-soft); }
+
+        .word-count-display {
+            font-size: 12px;
+            color: var(--text-tertiary);
+            padding: 0 12px;
+        }
+
+        /* Editor Container */
+        .editor-container {
+            flex: 1;
+            display: flex;
+            overflow: hidden;
+        }
+
+        .editor-pane {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .editor-content {
+            flex: 1;
+            overflow-y: auto;
+            padding: 40px 0;
+        }
+
+        .editor-content::-webkit-scrollbar { width: 8px; }
+        .editor-content::-webkit-scrollbar-track { background: transparent; }
+        .editor-content::-webkit-scrollbar-thumb { background: var(--border-color); border-radius: 4px; }
+
+        .editor-inner {
+            max-width: 720px;
+            margin: 0 auto;
+            padding: 0 40px;
+        }
+
+        .title-editor {
+            font-family: 'Inter', sans-serif;
+            font-size: 32px;
+            font-weight: 800;
+            line-height: 1.2;
+            color: var(--text-primary);
+            background: transparent;
+            border: none;
+            outline: none;
+            width: 100%;
+            margin-bottom: 24px;
+            resize: none;
+            min-height: 48px;
+        }
+        .title-editor::placeholder { color: var(--text-tertiary); }
+
+        .rich-editor {
+            font-family: 'Merriweather', Georgia, serif;
+            font-size: 17px;
+            line-height: 1.8;
+            color: var(--text-primary);
+            min-height: 400px;
+        }
+        .rich-editor:focus { outline: none; }
+        .rich-editor p { margin-bottom: 1.2em; }
+        .rich-editor h1, .rich-editor h2, .rich-editor h3 { font-family: 'Inter', sans-serif; margin: 1.4em 0 0.6em; }
+        .rich-editor h1 { font-size: 26px; font-weight: 700; }
+        .rich-editor h2 { font-size: 22px; font-weight: 700; }
+        .rich-editor h3 { font-size: 18px; font-weight: 600; }
+        .rich-editor blockquote { margin: 1.5em 0; padding: 0 0 0 20px; border-left: 3px solid var(--accent); color: var(--text-secondary); font-style: italic; }
+        .rich-editor ul, .rich-editor ol { margin: 1em 0; padding-left: 1.5em; }
+        .rich-editor code { font-family: 'SF Mono', Monaco, monospace; font-size: 0.85em; background: var(--bg-tertiary); padding: 2px 6px; border-radius: 4px; }
+        .rich-editor pre { background: var(--bg-tertiary); padding: 16px; border-radius: var(--radius-md); overflow-x: auto; margin: 1.2em 0; }
+
+        /* Preview Pane */
+        .preview-pane {
+            flex: 1;
+            overflow-y: auto;
+            padding: 40px;
+            background: var(--bg-primary);
+            display: none;
+            border-left: 1px solid var(--border-color);
+        }
+        .preview-pane.active { display: block; }
+        .preview-content {
+            max-width: 720px;
+            margin: 0 auto;
+            font-family: 'Merriweather', Georgia, serif;
+            font-size: 17px;
+            line-height: 1.8;
+        }
+        .preview-content h1 { font-family: 'Inter', sans-serif; font-size: 32px; font-weight: 800; margin-bottom: 0.5em; }
+        .preview-content h2 { font-family: 'Inter', sans-serif; font-size: 24px; font-weight: 700; }
+        .preview-content p { margin-bottom: 1.2em; }
+
+        /* Right Sidebar */
+        .sidebar-right {
+            width: 300px;
+            background: var(--bg-secondary);
+            border-left: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            flex-shrink: 0;
+        }
+
+        .sidebar-tabs {
+            display: flex;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .sidebar-tab {
+            flex: 1;
+            padding: 12px;
+            font-size: 12px;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--text-secondary);
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+            transition: var(--transition);
+            text-align: center;
+        }
+        .sidebar-tab:hover { color: var(--text-primary); }
+        .sidebar-tab.active { color: var(--accent); border-bottom-color: var(--accent); }
+
+        .sidebar-content {
+            flex: 1;
+            overflow-y: auto;
+            padding: 16px;
+        }
+
+        /* Sources Panel */
+        .sources-list { display: flex; flex-direction: column; gap: 12px; }
+        .source-item {
+            background: var(--bg-tertiary);
+            border-radius: var(--radius-md);
+            padding: 12px;
+            border: 1px solid var(--border-color);
+        }
+        .source-header {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            margin-bottom: 8px;
+        }
+        .source-url { font-size: 12px; color: var(--accent); text-decoration: none; word-break: break-all; }
+        .source-url:hover { text-decoration: underline; }
+        .source-actions { display: flex; gap: 4px; }
+        .source-action-btn {
+            width: 24px; height: 24px; border: none; background: transparent;
+            border-radius: var(--radius-sm); cursor: pointer;
+            color: var(--text-tertiary); font-size: 12px;
+        }
+        .source-action-btn:hover { background: var(--bg-elevated); color: var(--text-primary); }
+
+        .form-input {
+            width: 100%; padding: 10px 12px;
+            background: var(--bg-input);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-sm);
+            color: var(--text-primary);
+            font-size: 13px;
+            margin-bottom: 8px;
+        }
+        .form-input:focus { outline: none; border-color: var(--accent); }
+        .form-textarea { min-height: 60px; resize: vertical; }
+
+        .btn-primary {
+            width: 100%; padding: 10px;
+            background: var(--accent); color: white;
+            border: none; border-radius: var(--radius-sm);
+            font-size: 13px; font-weight: 600; cursor: pointer;
+        }
+        .btn-primary:hover { background: var(--accent-hover); }
+
+        /* AI Tools */
+        .ai-tools-list { display: flex; flex-direction: column; gap: 8px; }
+        .ai-tool-btn {
+            display: flex; align-items: center; gap: 12px;
+            padding: 12px;
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            cursor: pointer; width: 100%; text-align: left;
+        }
+        .ai-tool-btn:hover { border-color: var(--accent); background: var(--accent-soft); }
+        .ai-tool-icon {
+            width: 36px; height: 36px;
+            background: linear-gradient(135deg, var(--accent), var(--purple));
+            border-radius: var(--radius-sm);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 18px;
+        }
+        .ai-tool-name { font-size: 13px; font-weight: 600; color: var(--text-primary); }
+        .ai-tool-desc { font-size: 11px; color: var(--text-tertiary); margin-top: 2px; }
+
+        /* Stats Panel */
+        .writing-stats {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+        .stat-card {
+            background: var(--bg-tertiary);
+            border-radius: var(--radius-md);
+            padding: 14px;
+            text-align: center;
+            border: 1px solid var(--border-color);
+        }
+        .stat-card-value { font-size: 24px; font-weight: 700; color: var(--text-primary); }
+        .stat-card-label { font-size: 11px; color: var(--text-tertiary); text-transform: uppercase; margin-top: 4px; }
+
+        /* Schedule Panel */
+        .schedule-section { margin-bottom: 20px; }
+        .schedule-section h4 {
+            font-size: 12px; font-weight: 600;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 12px;
+        }
+        .schedule-input {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        .schedule-input label {
+            font-size: 12px;
+            color: var(--text-tertiary);
+        }
+        .schedule-input input[type="datetime-local"] {
+            padding: 10px 12px;
+            background: var(--bg-input);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-sm);
+            color: var(--text-primary);
+            font-size: 13px;
+        }
+        .schedule-input input[type="datetime-local"]:focus {
+            outline: none; border-color: var(--accent);
+        }
+
+        /* Calendar View */
+        .calendar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+        .calendar-title { font-size: 24px; font-weight: 700; }
+        .calendar-nav {
+            display: flex;
+            gap: 8px;
+        }
+        .calendar-nav-btn {
+            padding: 8px 16px;
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-sm);
+            color: var(--text-primary);
+            cursor: pointer;
+            font-size: 13px;
+        }
+        .calendar-nav-btn:hover { background: var(--bg-elevated); }
+
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 8px;
+            flex: 1;
+        }
+
+        .calendar-day-header {
+            text-align: center;
+            padding: 12px;
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--text-tertiary);
+            text-transform: uppercase;
+        }
+
+        .calendar-day {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            min-height: 120px;
+            padding: 8px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        .calendar-day:hover { border-color: var(--accent); }
+        .calendar-day.today { background: var(--accent-soft); border-color: var(--accent); }
+        .calendar-day.other-month { opacity: 0.4; }
+        .calendar-day.drag-over { background: var(--accent-soft); border: 2px dashed var(--accent); }
+
+        .calendar-day-number {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .calendar-article {
+            background: var(--bg-tertiary);
+            border-radius: var(--radius-sm);
+            padding: 6px 8px;
+            font-size: 11px;
+            margin-bottom: 4px;
+            cursor: grab;
+            border-left: 3px solid;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .calendar-article:hover { background: var(--bg-elevated); }
+        .calendar-article:active { cursor: grabbing; }
+        .calendar-article.status-draft { border-left-color: var(--danger); }
+        .calendar-article.status-review { border-left-color: var(--warning); }
+        .calendar-article.status-scheduled { border-left-color: var(--orange); }
+        .calendar-article.status-published { border-left-color: var(--success); }
+
+        /* Pipeline View */
+        .pipeline-container {
+            display: flex;
+            gap: 16px;
+            flex: 1;
+            overflow-x: auto;
+        }
+
+        .pipeline-column {
+            min-width: 280px;
+            background: var(--bg-secondary);
+            border-radius: var(--radius-md);
+            border: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .pipeline-header {
+            padding: 16px;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .pipeline-title {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .pipeline-count {
+            background: var(--bg-tertiary);
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+            color: var(--text-tertiary);
+        }
+
+        .pipeline-content {
+            flex: 1;
+            padding: 12px;
+            overflow-y: auto;
+        }
+
+        .pipeline-item {
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            padding: 12px;
+            margin-bottom: 8px;
+            cursor: grab;
+            transition: var(--transition);
+        }
+        .pipeline-item:hover { border-color: var(--accent); }
+        .pipeline-item.dragging { opacity: 0.5; }
+
+        .pipeline-item-title {
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            line-height: 1.4;
+        }
+
+        .pipeline-item-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 11px;
+            color: var(--text-tertiary);
+        }
+
+        .pipeline-item-date {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        /* Analytics View */
+        .analytics-header {
+            margin-bottom: 24px;
+        }
+        .analytics-title { font-size: 24px; font-weight: 700; margin-bottom: 8px; }
+        .analytics-subtitle { font-size: 14px; color: var(--text-secondary); }
+
+        .analytics-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+            margin-bottom: 32px;
+        }
+
+        .analytics-card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            padding: 20px;
+        }
+        .analytics-card-value { font-size: 32px; font-weight: 700; margin-bottom: 8px; }
+        .analytics-card-label { font-size: 13px; color: var(--text-secondary); }
+        .analytics-card-change {
+            font-size: 12px;
+            margin-top: 8px;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        .analytics-card-change.positive { color: var(--success); }
+        .analytics-card-change.negative { color: var(--danger); }
+
+        .analytics-chart-container {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            padding: 24px;
+            flex: 1;
+        }
+
+        .analytics-chart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .analytics-chart-title { font-size: 16px; font-weight: 600; }
+
+        /* Modal */
+        .modal-overlay {
+            position: fixed; inset: 0;
+            background: rgba(0, 0, 0, 0.7);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            padding: 20px;
+        }
+        .modal-overlay.show { display: flex; }
+
+        .modal {
+            background: var(--bg-secondary);
+            border-radius: var(--radius-lg);
+            max-width: 500px;
+            width: 100%;
+            box-shadow: var(--shadow-lg);
+        }
+        .modal-header {
+            padding: 20px;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .modal-title { font-size: 18px; font-weight: 600; }
+        .modal-close {
+            width: 32px; height: 32px;
+            border: none; background: transparent;
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            color: var(--text-secondary);
+            font-size: 20px;
+        }
+        .modal-close:hover { background: var(--bg-tertiary); color: var(--text-primary); }
+        .modal-body { padding: 20px; }
+        .modal-footer {
+            padding: 16px 20px;
+            border-top: 1px solid var(--border-color);
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+        }
+
+        .btn-secondary {
+            padding: 10px 16px;
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-sm);
+            color: var(--text-primary);
+            cursor: pointer;
+            font-size: 13px;
+        }
+        .btn-secondary:hover { background: var(--bg-elevated); }
+
+        /* Toast */
+        .toast {
+            position: fixed;
+            bottom: 24px; right: 24px;
+            padding: 14px 20px;
+            background: var(--bg-elevated);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            box-shadow: var(--shadow-lg);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 14px;
+            font-weight: 500;
+            z-index: 2000;
+            transform: translateY(100px);
+            opacity: 0;
+            transition: all 0.3s;
+        }
+        .toast.show { transform: translateY(0); opacity: 1; }
+
+        /* Empty State */
+        .empty-state {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            color: var(--text-tertiary);
+            text-align: center;
+            padding: 40px;
+        }
+        .empty-state-icon { font-size: 48px; margin-bottom: 16px; opacity: 0.5; }
+
+        /* Export Menu */
+        .export-menu {
+            position: absolute;
+            top: 100%; right: 0;
+            margin-top: 8px;
+            background: var(--bg-elevated);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            box-shadow: var(--shadow-lg);
+            padding: 8px;
+            min-width: 160px;
+            z-index: 100;
+            display: none;
+        }
+        .export-menu.show { display: block; }
+        .export-menu-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 12px;
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            font-size: 13px;
+        }
+        .export-menu-item:hover { background: var(--bg-tertiary); }
+
+        /* Mermaid Blocks */
+        .mermaid-block {
+            background: var(--bg-tertiary);
+            border-radius: var(--radius-md);
+            padding: 16px;
+            margin: 1em 0;
+            border: 1px solid var(--border-color);
+        }
+        .mermaid-block textarea {
+            width: 100%;
+            min-height: 100px;
+            background: var(--bg-input);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-sm);
+            padding: 12px;
+            font-family: monospace;
+            font-size: 13px;
+            color: var(--text-primary);
+            resize: vertical;
+            margin-bottom: 12px;
+        }
+        .mermaid-preview {
+            display: flex;
+            justify-content: center;
+            padding: 16px;
+            background: var(--bg-primary);
+            border-radius: var(--radius-sm);
+        }
+
+        /* Split view */
+        .split-view .editor-pane { width: 50%; }
+        .split-view .preview-pane { width: 50%; display: block; }
+
+        /* Mobile */
+        @media (max-width: 1200px) {
+            .sidebar-right { display: none; }
+            .analytics-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+        @media (max-width: 768px) {
+            .sidebar-left { position: fixed; inset: 0; z-index: 100; transform: translateX(-100%); }
+            .sidebar-left.open { transform: translateX(0); }
+            .editor-inner { padding: 0 20px; }
+            .title-editor { font-size: 24px; }
+            .analytics-grid { grid-template-columns: 1fr; }
+            .calendar-grid { grid-template-columns: repeat(7, 1fr); }
+            .calendar-day { min-height: 60px; }
+        }
+
+        /* Date picker styling */
+        input[type="date"], input[type="datetime-local"] {
+            color-scheme: dark;
+        }
+        [data-theme="light"] input[type="date"],
+        [data-theme="light"] input[type="datetime-local"] {
+            color-scheme: light;
+        }
+
+        /* Bulk actions bar */
+        .bulk-actions {
+            position: fixed;
+            bottom: 24px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--bg-elevated);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            padding: 12px 24px;
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            box-shadow: var(--shadow-lg);
+            z-index: 100;
+        }
+        .bulk-actions.hidden { display: none; }
+
+        .bulk-count { font-size: 13px; font-weight: 600; }
+
+        /* Time slots */
+        .time-slots {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            margin-top: 8px;
+        }
+        .time-slot {
+            font-size: 10px;
+            color: var(--text-tertiary);
+            padding: 2px 4px;
+            background: var(--bg-tertiary);
+            border-radius: 4px;
+        }
+
+        /* Bulk Schedule */
+        .bulk-checkbox {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 12px;
+            background: var(--bg-tertiary);
+            border-radius: var(--radius-sm);
+            margin-bottom: 6px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        .bulk-checkbox:hover { background: var(--bg-elevated); }
+        .bulk-checkbox input {
+            width: 18px;
+            height: 18px;
+            accent-color: var(--accent);
+        }
+        .bulk-checkbox-info { flex: 1; }
+        .bulk-checkbox-title { font-size: 13px; font-weight: 500; }
+        .bulk-checkbox-meta { font-size: 11px; color: var(--text-tertiary); }
+
+        /* Milestones */
+        .milestone-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px;
+            background: var(--bg-tertiary);
+            border-radius: var(--radius-md);
+            margin-bottom: 8px;
+            border-left: 3px solid var(--purple);
+        }
+        .milestone-date {
+            font-size: 12px;
+            color: var(--text-secondary);
+            white-space: nowrap;
+        }
+        .milestone-name { font-size: 13px; font-weight: 500; flex: 1; }
+        .milestone-target { font-size: 11px; color: var(--accent); }
+        .milestone-delete {
+            width: 24px; height: 24px;
+            border: none; background: transparent;
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            color: var(--text-tertiary);
+        }
+        .milestone-delete:hover { color: var(--danger); background: rgba(239, 68, 68, 0.1); }
+
+        /* Notifications Panel */
+        .notifications-panel {
+            position: fixed;
+            top: 70px; right: 20px;
+            width: 320px;
+            max-height: 400px;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-lg);
+            z-index: 500;
+            display: none;
+            overflow: hidden;
+        }
+        .notifications-panel.show { display: block; }
+        .notifications-header {
+            padding: 14px 16px;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .notifications-header h4 { font-size: 14px; font-weight: 600; }
+        .notifications-content {
+            max-height: 320px;
+            overflow-y: auto;
+        }
+        .notification-item {
+            padding: 12px 16px;
+            border-bottom: 1px solid var(--border-color);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        .notification-item:hover { background: var(--bg-tertiary); }
+        .notification-item.unread { background: var(--accent-soft); }
+        .notification-title { font-size: 13px; font-weight: 500; margin-bottom: 4px; }
+        .notification-desc { font-size: 12px; color: var(--text-secondary); }
+        .notification-time { font-size: 11px; color: var(--text-tertiary); margin-top: 4px; }
+
+        .notification-badge {
+            position: absolute;
+            top: -4px; right: -4px;
+            width: 20px; height: 20px;
+            background: var(--danger);
+            border-radius: 50%;
+            font-size: 11px;
+            font-weight: 600;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Calendar toolbar buttons */
+        .calendar-toolbar {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 16px;
+        }
+        .calendar-toolbar-btn {
+            padding: 8px 16px;
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-sm);
+            color: var(--text-secondary);
+            font-size: 12px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        .calendar-toolbar-btn:hover { background: var(--bg-elevated); color: var(--text-primary); }
+        .calendar-toolbar-btn.primary { background: var(--accent); color: white; border-color: var(--accent); }
+
+        /* Upcoming section */
+        .upcoming-section {
+            margin-top: 20px;
+            padding: 16px;
+            background: var(--bg-secondary);
+            border-radius: var(--radius-md);
+            border: 1px solid var(--border-color);
+        }
+        .upcoming-title {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .upcoming-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+        .upcoming-item:last-child { border-bottom: none; }
+        .upcoming-date {
+            font-size: 11px;
+            padding: 4px 8px;
+            background: var(--accent-soft);
+            border-radius: 4px;
+            color: var(--accent);
+        }
+        .upcoming-name { font-size: 12px; flex: 1; }
+
+        /* Medium analytics placeholder */
+        .medium-analytics {
+            margin-top: 24px;
+            padding: 16px;
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(139, 92, 246, 0.1));
+            border-radius: var(--radius-md);
+            border: 1px solid var(--accent);
+        }
+        .medium-analytics-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+        .medium-analytics-title {
+            font-size: 14px;
+            font-weight: 600;
+        }
+        .medium-connect-btn {
+            padding: 6px 12px;
+            background: var(--accent);
+            color: white;
+            border: none;
+            border-radius: var(--radius-sm);
+            font-size: 12px;
+            cursor: pointer;
+            margin-left: auto;
+        }
+        .medium-analytics-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+        }
+        .medium-stat {
+            text-align: center;
+            padding: 12px;
+            background: var(--bg-tertiary);
+            border-radius: var(--radius-md);
+        }
+        .medium-stat-value {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--accent);
+        }
+        .medium-stat-label {
+            font-size: 11px;
+            color: var(--text-tertiary);
+            margin-top: 4px;
+        }
+    </style>
+</head>
+<body>
+    <div class="app">
+        <!-- Main Navigation -->
+        <nav class="main-nav">
+            <div class="nav-logo">✍️</div>
+            <div class="nav-items">
+                <button class="nav-item active" data-view="editor" title="Editor">
+                    📝
+                </button>
+                <button class="nav-item" data-view="calendar" title="Calendar">
+                    📅
+                    <span class="nav-item-badge" id="calendar-badge" style="display: none;">0</span>
+                </button>
+                <button class="nav-item" data-view="pipeline" title="Pipeline">
+                    🔄
+                </button>
+                <button class="nav-item" data-view="analytics" title="Analytics">
+                    📊
+                </button>
+            </div>
+        </nav>
+
+        <!-- Left Sidebar - Articles List -->
+        <aside class="sidebar-left" id="sidebar-left">
+            <div class="sidebar-header">
+                <div class="sidebar-title" id="sidebar-title">Articles</div>
+                <div class="stats-bar">
+                    <div class="stat">
+                        <span class="stat-value" id="total-count">0</span> articles
+                    </div>
+                    <div class="stat">
+                        <span class="stat-value" id="total-words">0</span> words
+                    </div>
+                </div>
+            </div>
+            <div class="sidebar-toolbar">
+                <div class="search-box">
+                    <span class="search-icon">🔍</span>
+                    <input type="text" id="search-input" placeholder="Search articles...">
+                </div>
+                <button class="btn-icon" id="new-article-btn" title="New Article">+</button>
+            </div>
+            <div class="article-list" id="article-list"></div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="main">
+            <!-- EDITOR VIEW -->
+            <div class="main-content view-editor active" id="editor-view">
+                <header class="editor-toolbar">
+                    <div class="toolbar-left">
+                        <select class="header-status-select" id="header-status">
+                            <option value="draft">● Draft</option>
+                            <option value="review">● Review</option>
+                            <option value="scheduled">● Scheduled</option>
+                            <option value="published">● Published</option>
+                        </select>
+                    </div>
+                    <div class="toolbar-center">
+                        <button class="toolbar-btn active" data-view="edit" id="view-edit">Edit</button>
+                        <button class="toolbar-btn" data-view="split" id="view-split">Split</button>
+                        <button class="toolbar-btn" data-view="preview" id="view-preview">Preview</button>
+                    </div>
+                    <div class="toolbar-right">
+                        <span class="word-count-display" id="word-count-display">0 words</span>
+                        <button class="toolbar-btn" id="save-btn">💾 Save</button>
+                        <div style="position: relative;">
+                            <button class="toolbar-btn" id="export-btn">📤 Export ▾</button>
+                            <div class="export-menu" id="export-menu">
+                                <div class="export-menu-item" data-format="markdown">📝 Markdown</div>
+                                <div class="export-menu-item" data-format="html">🌐 HTML</div>
+                            </div>
+                        </div>
+                        <button class="btn-icon" id="theme-toggle" title="Toggle Theme">🌙</button>
+                    </div>
+                </header>
+
+                <div class="editor-container" id="editor-container">
+                    <div class="editor-pane" id="editor-pane">
+                        <div class="editor-content" id="editor-content">
+                            <div class="editor-inner" id="editor-inner">
+                                <div class="empty-state">
+                                    <div class="empty-state-icon">📝</div>
+                                    <h3>Welcome to Writing Haven</h3>
+                                    <p>Select an article or create a new one to begin writing.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="preview-pane" id="preview-pane">
+                        <div class="preview-content" id="preview-content"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CALENDAR VIEW -->
+            <div class="main-content view-calendar" id="calendar-view">
+                <div class="calendar-header">
+                    <div>
+                        <h2 class="calendar-title" id="calendar-month">February 2026</h2>
+                        <p style="font-size: 14px; color: var(--text-secondary); margin-top: 4px;">
+                            Drag articles to schedule • Click to view
+                        </p>
+                    </div>
+                    <div class="calendar-nav">
+                        <button class="calendar-nav-btn" id="cal-prev">← Previous</button>
+                        <button class="calendar-nav-btn" id="cal-today">Today</button>
+                        <button class="calendar-nav-btn" id="cal-next">Next →</button>
+                    </div>
+                </div>
+                <div class="calendar-grid" id="calendar-grid"></div>
+            </div>
+
+            <!-- PIPELINE VIEW -->
+            <div class="main-content view-pipeline" id="pipeline-view">
+                <div class="calendar-header">
+                    <div>
+                        <h2 class="calendar-title">Publishing Pipeline</h2>
+                        <p style="font-size: 14px; color: var(--text-secondary); margin-top: 4px;">
+                            Drag articles between stages
+                        </p>
+                    </div>
+                </div>
+                <div class="pipeline-container" id="pipeline-container">
+                    <div class="pipeline-column" data-status="draft">
+                        <div class="pipeline-header">
+                            <div class="pipeline-title">
+                                <span>●</span> Draft
+                            </div>
+                            <span class="pipeline-count" id="count-draft">0</span>
+                        </div>
+                        <div class="pipeline-content" id="pipeline-draft"></div>
+                    </div>
+                    <div class="pipeline-column" data-status="review">
+                        <div class="pipeline-header">
+                            <div class="pipeline-title">
+                                <span style="color: var(--warning)">●</span> Review
+                            </div>
+                            <span class="pipeline-count" id="count-review">0</span>
+                        </div>
+                        <div class="pipeline-content" id="pipeline-review"></div>
+                    </div>
+                    <div class="pipeline-column" data-status="scheduled">
+                        <div class="pipeline-header">
+                            <div class="pipeline-title">
+                                <span style="color: var(--orange)">●</span> Scheduled
+                            </div>
+                            <span class="pipeline-count" id="count-scheduled">0</span>
+                        </div>
+                        <div class="pipeline-content" id="pipeline-scheduled"></div>
+                    </div>
+                    <div class="pipeline-column" data-status="published">
+                        <div class="pipeline-header">
+                            <div class="pipeline-title">
+                                <span style="color: var(--success)">●</span> Published
+                            </div>
+                            <span class="pipeline-count" id="count-published">0</span>
+                        </div>
+                        <div class="pipeline-content" id="pipeline-published"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ANALYTICS VIEW -->
+            <div class="main-content view-analytics" id="analytics-view">
+                <div class="analytics-header">
+                    <h2 class="analytics-title">Content Analytics</h2>
+                    <p class="analytics-subtitle">Track your writing and publishing performance</p>
+                </div>
+                <div class="analytics-grid">
+                    <div class="analytics-card">
+                        <div class="analytics-card-value" id="stat-total-articles">0</div>
+                        <div class="analytics-card-label">Total Articles</div>
+                        <div class="analytics-card-change positive">
+                            <span>↑</span> All time
+                        </div>
+                    </div>
+                    <div class="analytics-card">
+                        <div class="analytics-card-value" id="stat-published">0</div>
+                        <div class="analytics-card-label">Published</div>
+                        <div class="analytics-card-change positive">
+                            <span>↑</span> This month
+                        </div>
+                    </div>
+                    <div class="analytics-card">
+                        <div class="analytics-card-value" id="stat-scheduled">0</div>
+                        <div class="analytics-card-label">Scheduled</div>
+                        <div class="analytics-card-change">
+                            <span>→</span> Upcoming
+                        </div>
+                    </div>
+                    <div class="analytics-card">
+                        <div class="analytics-card-value" id="stat-words-total">0</div>
+                        <div class="analytics-card-label">Words Written</div>
+                        <div class="analytics-card-change positive">
+                            <span>↑</span> Total
+                        </div>
+                    </div>
+                </div>
+                <div class="analytics-chart-container">
+                    <div class="analytics-chart-header">
+                        <h3 class="analytics-chart-title">Publishing Activity</h3>
+                        <select class="form-input" style="width: auto;">
+                            <option>Last 30 days</option>
+                            <option>Last 90 days</option>
+                            <option>This year</option>
+                        </select>
+                    </div>
+                    <div id="publishing-chart" style="height: 300px; display: flex; align-items: center; justify-content: center; color: var(--text-tertiary);">
+                        <p>📊 Activity chart will appear here when connected to analytics API</p>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Right Sidebar -->
+        <aside class="sidebar-right" id="sidebar-right">
+            <div class="sidebar-tabs">
+                <div class="sidebar-tab active" data-panel="sources">Sources</div>
+                <div class="sidebar-tab" data-panel="ai">AI</div>
+                <div class="sidebar-tab" data-panel="schedule">Schedule</div>
+                <div class="sidebar-tab" data-panel="stats">Stats</div>
+            </div>
+
+            <div class="sidebar-content" id="sidebar-content">
+                <!-- Sources Panel -->
+                <div class="panel" id="sources-panel">
+                    <div class="sources-list" id="sources-list">
+                        <div class="empty-state" style="padding: 20px 0;">
+                            <div style="font-size: 32px; margin-bottom: 8px;">🔗</div>
+                            <p style="font-size: 12px;">No sources added yet</p>
+                        </div>
+                    </div>
+                    <div style="margin-top: 16px; padding-top: 16px; border-top: 1px solid var(--border-color);">
+                        <input type="url" class="form-input" id="source-url" placeholder="https://...">
+                        <textarea class="form-input form-textarea" id="source-note" placeholder="Notes about this source..."></textarea>
+                        <button class="btn-primary" id="add-source-btn">Add Source</button>
+                    </div>
+                </div>
+
+                <!-- AI Tools Panel -->
+                <div class="panel" id="ai-panel" style="display: none;">
+                    <div class="ai-tools-list">
+                        <button class="ai-tool-btn" data-ai="improve">
+                            <div class="ai-tool-icon">✨</div>
+                            <div><div class="ai-tool-name">Improve Selected</div><div class="ai-tool-desc">Enhance clarity</div></div>
+                        </button>
+                        <button class="ai-tool-btn" data-ai="rewrite">
+                            <div class="ai-tool-icon">🎨</div>
+                            <div><div class="ai-tool-name">Rewrite</div><div class="ai-tool-desc">Change tone</div></div>
+                        </button>
+                        <button class="ai-tool-btn" data-ai="expand">
+                            <div class="ai-tool-icon">📖</div>
+                            <div><div class="ai-tool-name">Expand</div><div class="ai-tool-desc">Add detail</div></div>
+                        </button>
+                        <button class="ai-tool-btn" data-ai="condense">
+                            <div class="ai-tool-icon">✂️</div>
+                            <div><div class="ai-tool-name">Condense</div><div class="ai-tool-desc">Make concise</div></div>
+                        </button>
+                        <button class="ai-tool-btn" data-ai="headlines">
+                            <div class="ai-tool-icon">📰</div>
+                            <div><div class="ai-tool-name">Headlines</div><div class="ai-tool-desc">Title ideas</div></div>
+                        </button>
+                        <button class="ai-tool-btn" data-ai="grammar">
+                            <div class="ai-tool-icon">✓</div>
+                            <div><div class="ai-tool-name">Grammar</div><div class="ai-tool-desc">Fix errors</div></div>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Schedule Panel -->
+                <div class="panel" id="schedule-panel" style="display: none;">
+                    <div class="schedule-section">
+                        <h4>Publish Date</h4>
+                        <div class="schedule-input">
+                            <label>Target Date & Time</label>
+                            <input type="datetime-local" id="publish-datetime">
+                        </div>
+                    </div>
+                    <div class="schedule-section">
+                        <h4>Reminders</h4>
+                        <div style="display: flex; flex-direction: column; gap: 8px;">
+                            <label style="display: flex; align-items: center; gap: 8px; font-size: 13px; cursor: pointer;">
+                                <input type="checkbox" id="reminder-1day"> 1 day before
+                            </label>
+                            <label style="display: flex; align-items: center; gap: 8px; font-size: 13px; cursor: pointer;">
+                                <input type="checkbox" id="reminder-1week"> 1 week before
+                            </label>
+                        </div>
+                    </div>
+                    <button class="btn-primary" id="save-schedule-btn" style="margin-top: 16px;">Save Schedule</button>
+                </div>
+
+                <!-- Stats Panel -->
+                <div class="panel" id="stats-panel" style="display: none;">
+                    <div class="writing-stats">
+                        <div class="stat-card">
+                            <div class="stat-card-value" id="stat-words">0</div>
+                            <div class="stat-card-label">Words</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-card-value" id="stat-chars">0</div>
+                            <div class="stat-card-label">Characters</div>
+                        </div>
+                    </div>
+                    <div style="margin-top: 20px;">
+                        <div style="display: flex; justify-content: space-between; font-size: 12px; color: var(--text-secondary); margin-bottom: 8px;">
+                            <span>Word Goal</span>
+                            <span id="goal-text">0 / 1000</span>
+                        </div>
+                        <div style="height: 4px; background: var(--bg-tertiary); border-radius: 2px; overflow: hidden;">
+                            <div id="goal-fill" style="height: 100%; background: var(--accent); width: 0%; transition: width 0.3s;"></div>
+                        </div>
+                        <input type="number" class="form-input" id="word-goal-input" placeholder="Set word goal..." style="margin-top: 12px;">
+                    </div>
+                </div>
+            </div>
+        </aside>
+    </div>
+
+    <!-- Schedule Article Modal -->
+    <div class="modal-overlay" id="schedule-modal">
+        <div class="modal">
+            <div class="modal-header">
+                <div class="modal-title">Schedule Article</div>
+                <button class="modal-close" id="schedule-modal-close">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="schedule-input">
+                    <label>Article</label>
+                    <div id="schedule-article-title" style="font-weight: 600; margin-bottom: 16px;"></div>
+                    <label>Publish Date & Time</label>
+                    <input type="datetime-local" id="modal-publish-datetime">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-secondary" id="schedule-cancel">Cancel</button>
+                <button class="btn-primary" id="schedule-confirm">Schedule</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bulk Schedule Modal -->
+    <div class="modal-overlay" id="bulk-modal">
+        <div class="modal" style="max-width: 600px;">
+            <div class="modal-header">
+                <div class="modal-title">📦 Bulk Schedule Articles</div>
+                <button class="modal-close" id="bulk-modal-close">×</button>
+            </div>
+            <div class="modal-body">
+                <p style="font-size: 14px; color: var(--text-secondary); margin-bottom: 16px;">
+                    Select articles to schedule together. They'll be spaced evenly.
+                </p>
+                <div id="bulk-article-list" style="max-height: 200px; overflow-y: auto; margin-bottom: 16px; padding: 8px; background: var(--bg-tertiary); border-radius: var(--radius-md);">
+                    <!-- Articles will be listed here -->
+                </div>
+                <div class="schedule-input">
+                    <label>Start Date</label>
+                    <input type="date" id="bulk-start-date">
+                    <label style="margin-top: 12px;">Frequency</label>
+                    <select class="form-input" id="bulk-frequency">
+                        <option value="daily">Every Day</option>
+                        <option value="every-other">Every Other Day</option>
+                        <option value="weekly">Every Week</option>
+                        <option value="custom">Custom Interval...</option>
+                    </select>
+                    <div id="custom-interval" style="display: none; margin-top: 8px;">
+                        <label>Days between posts</label>
+                        <input type="number" class="form-input" id="bulk-interval-days" value="2" min="1">
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-secondary" id="bulk-cancel">Cancel</button>
+                <button class="btn-primary" id="bulk-schedule">Schedule All</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Milestones Modal -->
+    <div class="modal-overlay" id="milestones-modal">
+        <div class="modal">
+            <div class="modal-header">
+                <div class="modal-title">🎯 Content Milestones</div>
+                <button class="modal-close" id="milestones-modal-close">×</button>
+            </div>
+            <div class="modal-body">
+                <div id="milestones-list" style="margin-bottom: 16px;">
+                    <!-- Milestones will be listed here -->
+                </div>
+                <div class="schedule-input">
+                    <label>Add New Milestone</label>
+                    <input type="text" class="form-input" id="milestone-name" placeholder="e.g., Launch Series">
+                    <input type="date" id="milestone-date">
+                    <input type="text" class="form-input" id="milestone-target" placeholder="Target article(s)">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-secondary" id="milestones-cancel">Cancel</button>
+                <button class="btn-primary" id="milestones-add">Add Milestone</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notifications Panel -->
+    <div class="notifications-panel" id="notifications-panel">
+        <div class="notifications-header">
+            <h4>🔔 Notifications</h4>
+            <button class="btn-icon" id="notifications-close">×</button>
+        </div>
+        <div class="notifications-content" id="notifications-content">
+            <div class="empty-notifications" style="padding: 20px; text-align: center; color: var(--text-tertiary);">
+                No pending notifications
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast -->
+    <div class="toast" id="toast">
+        <span>✓</span>
+        <span id="toast-message">Saved!</span>
+    </div>
+
+    <!-- Notification badge -->
+    <div class="notification-badge" id="notification-badge" style="display: none;">
+        <span>0</span>
+    </div>
+
+    <script>
+        // ============================================
+        // STATE
+        // ============================================
+        const state = {
+            articles: [],
+            currentArticle: null,
+            sources: [],
+            currentTheme: localStorage.getItem('theme') || 'dark',
+            currentView: 'editor',
+            editorView: 'edit',
+            wordGoal: 1000,
+            isDirty: false,
+            calendarDate: new Date(),
+            draggedArticle: null
+        };
+
+        // ============================================
+        // INIT
+        // ============================================
+        function init() {
+            document.documentElement.setAttribute('data-theme', state.currentTheme);
+            mermaid.initialize({ startOnLoad: false, theme: state.currentTheme === 'dark' ? 'dark' : 'default' });
+            fetchArticles();
+            setupEventListeners();
+            renderCalendar();
+            updateAnalytics();
+        }
+
+        // ============================================
+        // API
+        // ============================================
+        async function fetchArticles() {
+            try {
+                const response = await fetch('/api/articles');
+                state.articles = await response.json();
+                updateStats();
+                renderArticleList();
+                renderPipeline();
+                updateAnalytics();
+            } catch (error) {
+                console.error('Failed to fetch articles:', error);
+                showToast('Failed to load articles', 'error');
+            }
+        }
+
+        async function loadArticle(id) {
+            try {
+                const response = await fetch(`/api/articles/${id}`);
+                const article = await response.json();
+                state.currentArticle = article;
+                state.sources = article.sources || [];
+                state.isDirty = false;
+
+                renderArticleList();
+                renderEditor();
+                renderSources();
+                updateStatsPanel();
+
+                document.getElementById('header-status').value = article.status || 'draft';
+
+                // Update schedule panel
+                if (article.publishDate) {
+                    document.getElementById('publish-datetime').value = article.publishDate;
+                }
+
+            } catch (error) {
+                console.error('Failed to load article:', error);
+                showToast('Failed to load article', 'error');
+            }
+        }
+
+        async function saveArticle() {
+            if (!state.currentArticle) return;
+
+            const title = document.getElementById('title-editor')?.value || state.currentArticle.title;
+            const content = getEditorContent();
+            const status = document.getElementById('header-status').value;
+            const publishDate = document.getElementById('publish-datetime')?.value;
+
+            try {
+                const response = await fetch(`/api/articles/${state.currentArticle.id}`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ title, content, status, sources: state.sources, publishDate })
+                });
+
+                if (response.ok) {
+                    state.isDirty = false;
+                    Object.assign(state.currentArticle, { title, content, status, publishDate });
+                    showToast('Article saved!');
+                    fetchArticles();
+                }
+            } catch (error) {
+                console.error('Failed to save:', error);
+                showToast('Failed to save article', 'error');
+            }
+        }
+
+        async function updateArticleStatus(id, status, publishDate = null) {
+            try {
+                const response = await fetch(`/api/articles/${id}/status`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ status, publishDate })
+                });
+
+                if (response.ok) {
+                    const article = state.articles.find(a => a.id === id);
+                    if (article) {
+                        article.status = status;
+                        if (publishDate) article.publishDate = publishDate;
+                    }
+                    showToast(`Status updated to ${status}`);
+                    fetchArticles();
+                }
+            } catch (error) {
+                console.error('Failed to update status:', error);
+                showToast('Failed to update status', 'error');
+            }
+        }
+
+        // ============================================
+        // RENDERING
+        // ============================================
+        function renderArticleList(filter = '') {
+            const filtered = state.articles.filter(a =>
+                a.title.toLowerCase().includes(filter.toLowerCase())
+            );
+
+            const list = document.getElementById('article-list');
+            list.innerHTML = filtered.map(article => `
+                <div class="article-item ${state.currentArticle?.id === article.id ? 'active' : ''}" data-id="${article.id}">
+                    <div class="article-item-title">${escapeHtml(article.title)}</div>
+                    <div class="article-item-meta">
+                        <span class="status-badge status-${article.status}">${article.status}</span>
+                        <span>${article.wordCount.toLocaleString()} words</span>
+                    </div>
+                    ${article.publishDate ? `<div class="publish-date">📅 ${formatDate(article.publishDate)}</div>` : ''}
+                </div>
+            `).join('');
+
+            list.querySelectorAll('.article-item').forEach(item => {
+                item.addEventListener('click', () => loadArticle(item.dataset.id));
+            });
+
+            document.getElementById('total-count').textContent = state.articles.length;
+            document.getElementById('total-words').textContent =
+                state.articles.reduce((sum, a) => sum + a.wordCount, 0).toLocaleString();
+        }
+
+        function renderEditor() {
+            if (!state.currentArticle) return;
+
+            const article = state.currentArticle;
+            document.getElementById('editor-inner').innerHTML = `
+                <textarea class="title-editor" id="title-editor" placeholder="Article Title">${escapeHtml(article.title)}</textarea>
+                <div class="rich-editor" id="rich-editor" contenteditable="true">${markdownToHtml(article.content)}</div>
+            `;
+
+            updatePreview();
+            setupEditorEvents();
+            updateWordCount();
+        }
+
+        function renderSources() {
+            const list = document.getElementById('sources-list');
+            if (!state.sources.length) {
+                list.innerHTML = '<div style="text-align: center; padding: 20px; color: var(--text-tertiary);">No sources added yet</div>';
+                return;
+            }
+
+            list.innerHTML = state.sources.map((source, i) => `
+                <div class="source-item">
+                    <div class="source-header">
+                        <a href="${escapeHtml(source.url)}" target="_blank" class="source-url">${escapeHtml(source.url)}</a>
+                        <div class="source-actions">
+                            <button class="source-action-btn" onclick="insertCitation(${i})">❝</button>
+                            <button class="source-action-btn" onclick="deleteSource(${i})">🗑️</button>
+                        </div>
+                    </div>
+                    ${source.note ? `<div style="font-size: 12px; color: var(--text-secondary); margin-top: 6px;">${escapeHtml(source.note)}</div>` : ''}
+                </div>
+            `).join('');
+        }
+
+        // ============================================
+        // CALENDAR
+        // ============================================
+        function renderCalendar() {
+            const grid = document.getElementById('calendar-grid');
+            const date = state.calendarDate;
+            const year = date.getFullYear();
+            const month = date.getMonth();
+
+            document.getElementById('calendar-month').textContent =
+                date.toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+
+            const firstDay = new Date(year, month, 1);
+            const lastDay = new Date(year, month + 1, 0);
+            const startDay = firstDay.getDay();
+            const daysInMonth = lastDay.getDate();
+
+            const today = new Date();
+            let html = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
+                .map(d => `<div class="calendar-day-header">${d}</div>`).join('');
+
+            // Previous month days
+            const prevMonth = new Date(year, month, 0);
+            for (let i = startDay - 1; i >= 0; i--) {
+                const day = prevMonth.getDate() - i;
+                html += `<div class="calendar-day other-month"><div class="calendar-day-number">${day}</div></div>`;
+            }
+
+            // Current month days
+            for (let day = 1; day <= daysInMonth; day++) {
+                const isToday = today.getDate() === day && today.getMonth() === month && today.getFullYear() === year;
+                const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+                const articlesOnDay = state.articles.filter(a => a.publishDate?.startsWith(dateStr));
+
+                html += `
+                    <div class="calendar-day ${isToday ? 'today' : ''}" data-date="${dateStr}">
+                        <div class="calendar-day-number">${day}</div>
+                        ${articlesOnDay.map(a => `
+                            <div class="calendar-article status-${a.status}" draggable="true" data-id="${a.id}">
+                                ${escapeHtml(a.title.substring(0, 20))}...
+                            </div>
+                        `).join('')}
+                    </div>`;
+            }
+
+            // Next month days
+            const totalCells = Math.ceil((startDay + daysInMonth) / 7) * 7;
+            for (let i = daysInMonth + 1; i <= totalCells; i++) {
+                html += `<div class="calendar-day other-month"><div class="calendar-day-number">${i - daysInMonth}</div></div>`;
+            }
+
+            grid.innerHTML = html;
+            setupCalendarDragDrop();
+
+            // Update badge
+            const scheduledCount = state.articles.filter(a => a.publishDate && a.status !== 'published').length;
+            const badge = document.getElementById('calendar-badge');
+            if (scheduledCount > 0) {
+                badge.textContent = scheduledCount;
+                badge.style.display = 'flex';
+            } else {
+                badge.style.display = 'none';
+            }
+        }
+
+        function setupCalendarDragDrop() {
+            const days = document.querySelectorAll('.calendar-day[data-date]');
+            const articles = document.querySelectorAll('.calendar-article[draggable="true"]');
+
+            articles.forEach(el => {
+                el.addEventListener('dragstart', (e) => {
+                    e.dataTransfer.setData('text/plain', el.dataset.id);
+                    el.classList.add('dragging');
+                });
+                el.addEventListener('dragend', () => el.classList.remove('dragging'));
+            });
+
+            days.forEach(day => {
+                day.addEventListener('dragover', (e) => {
+                    e.preventDefault();
+                    day.classList.add('drag-over');
+                });
+                day.addEventListener('dragleave', () => day.classList.remove('drag-over'));
+                day.addEventListener('drop', (e) => {
+                    e.preventDefault();
+                    day.classList.remove('drag-over');
+                    const articleId = e.dataTransfer.getData('text/plain');
+                    const publishDate = day.dataset.date + 'T09:00';
+                    updateArticleStatus(articleId, 'scheduled', publishDate);
+                });
+            });
+        }
+
+        function changeCalendarMonth(delta) {
+            state.calendarDate.setMonth(state.calendarDate.getMonth() + delta);
+            renderCalendar();
+        }
+
+        function goToToday() {
+            state.calendarDate = new Date();
+            renderCalendar();
+        }
+
+        // ============================================
+        // PIPELINE
+        // ============================================
+        function renderPipeline() {
+            const columns = {
+                draft: document.getElementById('pipeline-draft'),
+                review: document.getElementById('pipeline-review'),
+                scheduled: document.getElementById('pipeline-scheduled'),
+                published: document.getElementById('pipeline-published')
+            };
+
+            // Update counts
+            Object.keys(columns).forEach(status => {
+                document.getElementById(`count-${status}`).textContent =
+                    state.articles.filter(a => a.status === status).length;
+            });
+
+            Object.keys(columns).forEach(status => {
+                columns[status].innerHTML = state.articles
+                    .filter(a => a.status === status)
+                    .map(article => `
+                        <div class="pipeline-item" draggable="true" data-id="${article.id}">
+                            <div class="pipeline-item-title">${escapeHtml(article.title)}</div>
+                            <div class="pipeline-item-meta">
+                                <span>${article.wordCount.toLocaleString()} words</span>
+                                ${article.publishDate ? `
+                                    <div class="pipeline-item-date">📅 ${new Date(article.publishDate).toLocaleDateString()}</div>
+                                ` : ''}
+                            </div>
+                        </div>
+                    `).join('');
+            });
+
+            setupPipelineDragDrop();
+        }
+
+        function setupPipelineDragDrop() {
+            const items = document.querySelectorAll('.pipeline-item');
+            const columns = document.querySelectorAll('.pipeline-column[data-status]');
+
+            items.forEach(item => {
+                item.addEventListener('dragstart', () => item.classList.add('dragging'));
+                item.addEventListener('dragend', () => item.classList.remove('dragging'));
+            });
+
+            columns.forEach(col => {
+                col.addEventListener('dragover', (e) => {
+                    e.preventDefault();
+                    col.querySelector('.pipeline-content').style.background = 'var(--accent-soft)';
+                });
+                col.addEventListener('dragleave', () => {
+                    col.querySelector('.pipeline-content').style.background = '';
+                });
+                col.addEventListener('drop', (e) => {
+                    e.preventDefault();
+                    col.querySelector('.pipeline-content').style.background = '';
+                    const item = document.querySelector('.pipeline-item.dragging');
+                    if (item) {
+                        const id = item.dataset.id;
+                        const newStatus = col.dataset.status;
+                        updateArticleStatus(id, newStatus);
+                    }
+                });
+            });
+        }
+
+        // ============================================
+        // ANALYTICS
+        // ============================================
+        function updateAnalytics() {
+            document.getElementById('stat-total-articles').textContent = state.articles.length;
+            document.getElementById('stat-published').textContent =
+                state.articles.filter(a => a.status === 'published').length;
+            document.getElementById('stat-scheduled').textContent =
+                state.articles.filter(a => a.status === 'scheduled').length;
+            document.getElementById('stat-words-total').textContent =
+                state.articles.reduce((sum, a) => sum + a.wordCount, 0).toLocaleString();
+        }
+
+        // ============================================
+        // EDITOR FUNCTIONS
+        // ============================================
+        function setupEditorEvents() {
+            const editor = document.getElementById('rich-editor');
+            if (!editor) return;
+
+            editor.addEventListener('input', () => {
+                state.isDirty = true;
+                updateWordCount();
+                updatePreview();
+            });
+
+            editor.addEventListener('blur', () => {
+                if (state.isDirty) saveArticle();
+            });
+
+            // Auto-resize title
+            const title = document.getElementById('title-editor');
+            if (title) {
+                title.addEventListener('input', () => {
+                    title.style.height = 'auto';
+                    title.style.height = title.scrollHeight + 'px';
+                    state.isDirty = true;
+                });
+            }
+        }
+
+        function getEditorContent() {
+            const editor = document.getElementById('rich-editor');
+            return editor ? htmlToMarkdown(editor.innerHTML) : '';
+        }
+
+        function updatePreview() {
+            const content = getEditorContent();
+            const title = document.getElementById('title-editor')?.value || state.currentArticle?.title || '';
+            document.getElementById('preview-content').innerHTML = `
+                <h1>${escapeHtml(title)}</h1>
+                ${markdownToHtml(content)}
+            `;
+            mermaid.init(undefined, document.querySelectorAll('#preview-content .mermaid'));
+        }
+
+        function updateWordCount() {
+            const content = getEditorContent();
+            const words = countWords(content);
+            document.getElementById('word-count-display').textContent = `${words.toLocaleString()} words`;
+            document.getElementById('stat-words').textContent = words;
+            document.getElementById('stat-chars').textContent = content.length.toLocaleString();
+
+            const percent = Math.min(100, (words / state.wordGoal) * 100);
+            document.getElementById('goal-text').textContent = `${words} / ${state.wordGoal}`;
+            document.getElementById('goal-fill').style.width = `${percent}%`;
+        }
+
+        // ============================================
+        // UTILITY FUNCTIONS
+        // ============================================
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        function countWords(text) {
+            return text.trim().split(/\s+/).filter(w => w.length > 0).length;
+        }
+
+        function formatDate(dateStr) {
+            if (!dateStr) return '';
+            return new Date(dateStr).toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+        }
+
+        function showToast(message, type = 'success') {
+            const toast = document.getElementById('toast');
+            toast.querySelector('span:first-child').textContent = type === 'success' ? '✓' : '⚠';
+            document.getElementById('toast-message').textContent = message;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 3000);
+        }
+
+        // ============================================
+        // MARKDOWN PARSING
+        // ============================================
+        function markdownToHtml(md) {
+            if (!md) return '';
+
+            let html = escapeHtml(md);
+
+            // Headers
+            html = html.replace(/^### (.*$)/gim, '<h3>$1</h3>');
+            html = html.replace(/^## (.*$)/gim, '<h2>$1</h2>');
+            html = html.replace(/^# (.*$)/gim, '<h1>$1</h1>');
+
+            // Bold/Italic
+            html = html.replace(/\*\*\*(.*?)\*\*\*/g, '<strong><em>$1</em></strong>');
+            html = html.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+            html = html.replace(/\*(.*?)\*/g, '<em>$1</em>');
+
+            // Links
+            html = html.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank">$1</a>');
+
+            // Blockquotes
+            html = html.replace(/^> (.*$)/gim, '<blockquote>$1</blockquote>');
+
+            // Code
+            html = html.replace(/```(\w+)?\n([\s\S]*?)```/g, '<pre><code>$2</code></pre>');
+            html = html.replace(/`([^`]+)`/g, '<code>$1</code>');
+
+            // Lists
+            html = html.replace(/^\* (.*$)/gim, '<li>$1</li>');
+            html = html.replace(/^\d+\. (.*$)/gim, '<li>$1</li>');
+            html = html.replace(/(<li>.*<\/li>)+/g, '<ul>$&</ul>');
+
+            // Horizontal rules
+            html = html.replace(/^---$/gim, '<hr>');
+
+            // Paragraphs
+            html = html.split('\n\n').map(p => {
+                p = p.trim();
+                if (!p || p.startsWith('<')) return p;
+                return `<p>${p.replace(/\n/g, ' ')}</p>`;
+            }).join('\n');
+
+            return html;
+        }
+
+        function htmlToMarkdown(html) {
+            let md = html;
+            md = md.replace(/<[^>]+>/g, '').replace(/&nbsp;/g, ' ')
+                   .replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>');
+            return md;
+        }
+
+        // ============================================
+        // SOURCES
+        // ============================================
+        function addSource() {
+            const url = document.getElementById('source-url').value.trim();
+            const note = document.getElementById('source-note').value.trim();
+
+            if (!url) {
+                showToast('Please enter a URL', 'error');
+                return;
+            }
+
+            state.sources.push({ url, note });
+            renderSources();
+
+            document.getElementById('source-url').value = '';
+            document.getElementById('source-note').value = '';
+            showToast('Source added!');
+        }
+
+        function insertCitation(index) {
+            const source = state.sources[index];
+            if (source && state.currentArticle) {
+                const citation = `[Source: ${source.url}]`;
+                showToast('Citation added!');
+            }
+        }
+
+        function deleteSource(index) {
+            state.sources.splice(index, 1);
+            renderSources();
+            showToast('Source removed');
+        }
+
+        // ============================================
+        // AI TOOLS
+        // ============================================
+        async function handleAITool(tool) {
+            const selection = window.getSelection();
+            const text = selection.toString();
+
+            if (!text && tool !== 'headlines') {
+                showToast('Select text to use AI tools', 'error');
+                return;
+            }
+
+            showToast(`AI ${tool} feature - Configure API endpoint`, 'warning');
+        }
+
+        // ============================================
+        // BULK SCHEDULING
+        // ============================================
+        function openBulkSchedule() {
+            const modal = document.getElementById('bulk-modal');
+            const list = document.getElementById('bulk-article-list');
+
+            const unscheduled = state.articles.filter(a => !a.publishDate && a.status !== 'published');
+            list.innerHTML = unscheduled.map(a => `
+                <label class="bulk-checkbox">
+                    <input type="checkbox" value="${a.id}">
+                    <div class="bulk-checkbox-info">
+                        <div class="bulk-checkbox-title">${escapeHtml(a.title)}</div>
+                        <div class="bulk-checkbox-meta">${a.wordCount.toLocaleString()} words • ${a.status}</div>
+                    </div>
+                </label>
+            `).join('');
+
+            if (unscheduled.length === 0) {
+                list.innerHTML = '<div style="padding: 16px; text-align: center; color: var(--text-tertiary);">No articles to schedule</div>';
+            }
+
+            const tomorrow = new Date();
+            tomorrow.setDate(tomorrow.getDate() + 1);
+            document.getElementById('bulk-start-date').value = tomorrow.toISOString().split('T')[0];
+
+            modal.classList.add('show');
+        }
+
+        async function bulkSchedule() {
+            const checkboxes = document.querySelectorAll('#bulk-article-list input:checked');
+            const selectedIds = Array.from(checkboxes).map(cb => cb.value);
+            const startDate = document.getElementById('bulk-start-date').value;
+            const frequency = document.getElementById('bulk-frequency').value;
+            const intervalDays = parseInt(document.getElementById('bulk-interval-days')?.value || '2');
+
+            if (selectedIds.length === 0) {
+                showToast('Select at least one article', 'error');
+                return;
+            }
+
+            let currentDate = new Date(startDate);
+            const interval = frequency === 'daily' ? 1 : frequency === 'every-other' ? 2 : frequency === 'weekly' ? 7 : intervalDays;
+
+            for (const id of selectedIds) {
+                const publishDate = currentDate.toISOString().slice(0, 16);
+                await updateArticleStatus(id, 'scheduled', publishDate);
+                currentDate.setDate(currentDate.getDate() + interval);
+            }
+
+            document.getElementById('bulk-modal').classList.remove('show');
+            showToast(`Scheduled ${selectedIds.length} articles!`);
+        }
+
+        // ============================================
+        // MILESTONES
+        // ============================================
+        let milestones = JSON.parse(localStorage.getItem('milestones') || '[]');
+
+        function renderMilestones() {
+            const list = document.getElementById('milestones-list');
+            list.innerHTML = milestones.map((m, i) => `
+                <div class="milestone-item">
+                    <div class="milestone-date">${formatDate(m.date)}</div>
+                    <div class="milestone-name">${escapeHtml(m.name)}</div>
+                    <div class="milestone-target">${escapeHtml(m.target || '')}</div>
+                    <button class="milestone-delete" onclick="deleteMilestone(${i})">×</button>
+                </div>
+            `).join('');
+        }
+
+        function addMilestone() {
+            const name = document.getElementById('milestone-name').value.trim();
+            const date = document.getElementById('milestone-date').value;
+            const target = document.getElementById('milestone-target').value.trim();
+
+            if (!name || !date) {
+                showToast('Name and date required', 'error');
+                return;
+            }
+
+            milestones.push({ name, date, target });
+            localStorage.setItem('milestones', JSON.stringify(milestones));
+            renderMilestones();
+
+            document.getElementById('milestone-name').value = '';
+            document.getElementById('milestone-date').value = '';
+            document.getElementById('milestone-target').value = '';
+
+            showToast('Milestone added!');
+        }
+
+        function deleteMilestone(index) {
+            milestones.splice(index, 1);
+            localStorage.setItem('milestones', JSON.stringify(milestones));
+            renderMilestones();
+            showToast('Milestone removed');
+        }
+
+        // ============================================
+        // NOTIFICATIONS
+        // ============================================
+        function checkNotifications() {
+            const notifications = [];
+            const now = new Date();
+
+            state.articles.forEach(article => {
+                if (article.publishDate) {
+                    const publishDate = new Date(article.publishDate);
+                    const daysUntil = Math.floor((publishDate - now) / (1000 * 60 * 60 * 24));
+
+                    if (daysUntil === 1) {
+                        notifications.push({ type: 'reminder', title: 'Publishing Tomorrow', desc: `"${article.title}"`, date: article.publishDate });
+                    } else if (daysUntil === 7) {
+                        notifications.push({ type: 'reminder', title: 'Publishing in 1 Week', desc: `"${article.title}"`, date: article.publishDate });
+                    } else if (daysUntil < 0) {
+                        notifications.push({ type: 'overdue', title: 'Publishing Overdue', desc: `"${article.title}"`, date: article.publishDate });
+                    }
+                }
+            });
+
+            milestones.forEach(m => {
+                const mDate = new Date(m.date);
+                const daysUntil = Math.floor((mDate - now) / (1000 * 60 * 60 * 24));
+
+                if (daysUntil === 1) {
+                    notifications.push({ type: 'milestone', title: 'Milestone Tomorrow', desc: m.name, date: m.date });
+                } else if (daysUntil === 7) {
+                    notifications.push({ type: 'milestone', title: 'Milestone in 1 Week', desc: m.name, date: m.date });
+                }
+            });
+
+            const badge = document.getElementById('notification-badge');
+            badge.querySelector('span').textContent = notifications.length;
+            badge.style.display = notifications.length > 0 ? 'flex' : 'none';
+
+            return notifications;
+        }
+
+        function showNotifications() {
+            const notifications = checkNotifications();
+            const panel = document.getElementById('notifications-panel');
+            const content = document.getElementById('notifications-content');
+
+            content.innerHTML = notifications.length === 0
+                ? '<div style="padding: 20px; text-align: center; color: var(--text-tertiary);">No pending notifications</div>'
+                : notifications.map(n => `
+                    <div class="notification-item">
+                        <div class="notification-title">${escapeHtml(n.title)}</div>
+                        <div class="notification-desc">${escapeHtml(n.desc)}</div>
+                        <div class="notification-time">${formatDate(n.date)}</div>
+                    </div>
+                `).join('');
+
+            panel.classList.toggle('show');
+        }
+
+        function connectMedium() {
+            showToast('Medium API integration - Configure your API key in server.py', 'warning');
+        }
+
+        // ============================================
+        // EVENT LISTENERS
+        // ============================================
+        function setupEventListeners() {
+            // Search
+            document.getElementById('search-input').addEventListener('input', (e) => {
+                renderArticleList(e.target.value);
+            });
+
+            // New article
+            document.getElementById('new-article-btn').addEventListener('click', () => {
+                const title = prompt('Enter article title:');
+                if (title) {
+                    const id = title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+                    fetch('/api/articles', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ id, title, content: `# ${title}\n\nStart writing...` })
+                    }).then(() => {
+                        fetchArticles();
+                        loadArticle(id);
+                    });
+                }
+            });
+
+            // Navigation
+            document.querySelectorAll('.nav-item').forEach(item => {
+                item.addEventListener('click', () => {
+                    document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
+                    item.classList.add('active');
+                    switchView(item.dataset.view);
+                });
+            });
+
+            // View toggle
+            document.querySelectorAll('.toolbar-btn[data-view]').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    document.querySelectorAll('.toolbar-btn[data-view]').forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    state.editorView = btn.dataset.view;
+                    updateEditorView();
+                });
+            });
+
+            // Sidebar tabs
+            document.querySelectorAll('.sidebar-tab').forEach(tab => {
+                tab.addEventListener('click', () => {
+                    document.querySelectorAll('.sidebar-tab').forEach(t => t.classList.remove('active'));
+                    document.querySelectorAll('.panel').forEach(p => p.style.display = 'none');
+                    tab.classList.add('active');
+                    document.getElementById(`${tab.dataset.panel}-panel`).style.display = 'block';
+                });
+            });
+
+            // Save
+            document.getElementById('save-btn').addEventListener('click', saveArticle);
+
+            // Status change
+            document.getElementById('header-status').addEventListener('change', (e) => {
+                if (state.currentArticle) {
+                    updateArticleStatus(state.currentArticle.id, e.target.value);
+                }
+            });
+
+            // Schedule
+            document.getElementById('save-schedule-btn').addEventListener('click', () => {
+                if (state.currentArticle) {
+                    saveArticle();
+                    showToast('Schedule saved!');
+                }
+            });
+
+            // AI tools
+            document.querySelectorAll('.ai-tool-btn').forEach(btn => {
+                btn.addEventListener('click', () => handleAITool(btn.dataset.ai));
+            });
+
+            // Export
+            document.getElementById('export-btn').addEventListener('click', () => {
+                document.getElementById('export-menu').classList.toggle('show');
+            });
+
+            // Calendar nav
+            document.getElementById('cal-prev').addEventListener('click', () => changeCalendarMonth(-1));
+            document.getElementById('cal-next').addEventListener('click', () => changeCalendarMonth(1));
+            document.getElementById('cal-today').addEventListener('click', goToToday);
+
+            // Add source
+            document.getElementById('add-source-btn').addEventListener('click', addSource);
+
+            // Word goal
+            document.getElementById('word-goal-input').addEventListener('change', (e) => {
+                state.wordGoal = parseInt(e.target.value) || 1000;
+                updateWordCount();
+            });
+
+            // Theme toggle
+            document.getElementById('theme-toggle').addEventListener('click', () => {
+                state.currentTheme = state.currentTheme === 'dark' ? 'light' : 'dark';
+                document.documentElement.setAttribute('data-theme', state.currentTheme);
+                document.getElementById('theme-toggle').textContent = state.currentTheme === 'dark' ? '☀️' : '🌙';
+                localStorage.setItem('theme', state.currentTheme);
+            });
+
+            // Click outside to close menus
+            document.addEventListener('click', (e) => {
+                if (!e.target.closest('#export-btn') && !e.target.closest('.export-menu')) {
+                    document.getElementById('export-menu').classList.remove('show');
+                }
+            });
+        }
+
+        function switchView(view) {
+            document.querySelectorAll('.main-content').forEach(el => el.classList.remove('active'));
+            document.getElementById(`${view}-view`).classList.add('active');
+            state.currentView = view;
+
+            document.getElementById('sidebar-title').textContent =
+                { editor: 'Articles', calendar: 'Calendar', pipeline: 'Pipeline', analytics: 'Analytics' }[view];
+
+            if (view === 'calendar') renderCalendar();
+            if (view === 'pipeline') renderPipeline();
+            if (view === 'analytics') updateAnalytics();
+        }
+
+        function updateEditorView() {
+            const container = document.getElementById('editor-container');
+            const preview = document.getElementById('preview-pane');
+
+            container.classList.remove('split-view');
+            preview.classList.remove('active');
+
+            if (state.editorView === 'split') {
+                container.classList.add('split-view');
+                preview.classList.add('active');
+            } else if (state.editorView === 'preview') {
+                preview.classList.add('active');
+            }
+        }
+
+        // Bulk schedule modal events
+        document.getElementById('bulk-frequency').addEventListener('change', (e) => {
+            document.getElementById('custom-interval').style.display = e.target.value === 'custom' ? 'block' : 'none';
+        });
+
+        document.getElementById('bulk-schedule').addEventListener('click', bulkSchedule);
+        document.getElementById('bulk-cancel').addEventListener('click', () => {
+            document.getElementById('bulk-modal').classList.remove('show');
+        });
+        document.getElementById('bulk-modal-close').addEventListener('click', () => {
+            document.getElementById('bulk-modal').classList.remove('show');
+        });
+
+        // Milestones modal events
+        document.getElementById('milestones-add').addEventListener('click', addMilestone);
+        document.getElementById('milestones-cancel').addEventListener('click', () => {
+            document.getElementById('milestones-modal').classList.remove('show');
+        });
+        document.getElementById('milestones-modal-close').addEventListener('click', () => {
+            document.getElementById('milestones-modal').classList.remove('show');
+        });
+
+        // Notifications panel
+        document.getElementById('notifications-close').addEventListener('click', () => {
+            document.getElementById('notifications-panel').classList.remove('show');
+        });
+
+        // Add toolbar buttons to calendar view
+        const calendarNav = document.querySelector('.calendar-nav');
+        const bulkBtn = document.createElement('button');
+        bulkBtn.className = 'calendar-toolbar-btn primary';
+        bulkBtn.textContent = '📦 Bulk Schedule';
+        bulkBtn.addEventListener('click', openBulkSchedule);
+        calendarNav.insertBefore(bulkBtn, calendarNav.firstChild);
+
+        const milestonesBtn = document.createElement('button');
+        milestonesBtn.className = 'calendar-toolbar-btn';
+        milestonesBtn.textContent = '🎯 Milestones';
+        milestonesBtn.addEventListener('click', () => {
+            renderMilestones();
+            document.getElementById('milestones-modal').classList.add('show');
+        });
+        calendarNav.insertBefore(milestonesBtn, calendarNav.firstChild);
+
+        const notifBtn = document.createElement('button');
+        notifBtn.className = 'calendar-toolbar-btn';
+        notifBtn.style.position = 'relative';
+        notifBtn.innerHTML = '🔔';
+        notifBtn.addEventListener('click', showNotifications);
+        document.querySelector('.nav-items').appendChild(notifBtn);
+
+        // Check notifications periodically
+        checkNotifications();
+        setInterval(checkNotifications, 60000); // Every minute
+
+        // Initialize
+        init();
+    </script>
+</body>
+</html>
